@@ -16,7 +16,7 @@ ansible-playbook create-wireguard.yml -i inventories/production/hosts
 
 ansible-playbook ubuntu-servers.yml -i inventories/production/hosts
 
-ansible-playbook tools.yml -i inventories/localhost/hosts
+ansible-playbook tools.yml -i inventories/production-unsecure/hosts
 
 ansible-playbook create-wireguard-peer.yml -i inventories/production/hosts
 
