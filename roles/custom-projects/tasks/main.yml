@@ -9,6 +9,6 @@
   git:
     repo: "{{ item.repo }}"
     dest: "{{ ansible_env.HOME }}/tools/{{ item.name }}"
-    version: "{{ item.version | default('main') }}"
+    version: "{{ item.version | default('master') }}"
     update: true
   loop: "{{ custom_projects }}"

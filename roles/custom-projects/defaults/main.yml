@@ -2,8 +2,8 @@
 custom_projects:
   - name: jfr-merger
     repo: https://github.com/izual0110/jfr-merger.git
-    version: main
+    version: master
 
   - name: RootCauseLab
     repo: https://github.com/izual0110/RootCauseLab.git
-    version: main
+    version: master
