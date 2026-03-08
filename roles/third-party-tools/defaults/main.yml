@@ -2,7 +2,14 @@
 third_party_tools_dir: "{{ ansible_env.HOME }}/tools"
 third_party_downloads_dir: "{{ third_party_tools_dir }}/.downloads"
 
-third_party_tools:
+third_party_macos_arch: >-
+  {{
+    'x64' if ansible_architecture in ['x86_64', 'amd64']
+    else 'arm64' if ansible_architecture in ['arm64', 'aarch64']
+    else ansible_architecture
+  }}
+
+third_party_tools_linux:
   - name: jol
     version: "0.17"
     archive_url: "https://github.com/openjdk/jol/archive/refs/tags/0.17.tar.gz"
@@ -32,3 +39,24 @@ third_party_tools:
     archive_url: "https://github.com/oracle/visualvm/releases/download/2.2.1/visualvm_221.zip"
     archive_name: "visualvm_221.zip"
     extract_to: "{{ third_party_tools_dir }}"
+
+third_party_tools_macos:
+  - name: jol
+    version: "0.17"
+    archive_url: "https://github.com/openjdk/jol/archive/refs/tags/0.17.tar.gz"
+    archive_name: "jol-0.17.tar.gz"
+    extract_to: "{{ third_party_tools_dir }}"
+
+  - name: async-profiler
+    version: "4.3"
+    archive_url: "https://github.com/async-profiler/async-profiler/releases/download/v4.3/async-profiler-4.3-macos-{{ third_party_macos_arch }}.tar.gz"
+    archive_name: "async-profiler-4.3-macos-{{ third_party_macos_arch }}.tar.gz"
+    extract_to: "{{ third_party_tools_dir }}"
+
+  - name: visualvm
+    version: "2.2.1"
+    archive_url: "https://github.com/oracle/visualvm/releases/download/2.2.1/visualvm_221.zip"
+    archive_name: "visualvm_221.zip"
+    extract_to: "{{ third_party_tools_dir }}"
+
+third_party_tools: "{{ third_party_tools_linux if ansible_system == 'Linux' else third_party_tools_macos if ansible_system == 'Darwin' else [] }}"
