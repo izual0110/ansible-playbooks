@@ -5,14 +5,10 @@
     state: directory
     mode: "0755"
 
-- name: Clone my projects
+- name: Clone custom projects
   git:
     repo: "{{ item.repo }}"
     dest: "{{ ansible_env.HOME }}/tools/{{ item.name }}"
-    version: main
+    version: "{{ item.version | default('main') }}"
     update: true
-  loop:
-    - name: jfr-merger
-      repo: https://github.com/izual0110/jfr-merger.git
-    - name: RootCauseLab
-      repo: https://github.com/izual0110/RootCauseLab.git
+  loop: "{{ custom_projects }}"

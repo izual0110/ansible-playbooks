@@ -1,13 +1,13 @@
 ---
 - name: Ensure tools directory exists
   file:
-    path: "{{ ansible_env.HOME }}/tools"
+    path: "{{ third_party_tools_dir }}"
     state: directory
     mode: "0755"
 
 - name: Ensure tools tmp directory exists
   file:
-    path: "{{ ansible_env.HOME }}/tools/.downloads"
+    path: "{{ third_party_downloads_dir }}"
     state: directory
     mode: "0755"
 
@@ -21,13 +21,21 @@
 - name: Download third-party archives
   get_url:
     url: "{{ item.archive_url }}"
-    dest: "{{ ansible_env.HOME }}/tools/.downloads/{{ item.archive_name }}"
+    dest: "{{ third_party_downloads_dir }}/{{ item.archive_name }}"
     mode: "0644"
   loop: "{{ third_party_tools }}"
 
 - name: Unpack third-party archives
   unarchive:
-    src: "{{ ansible_env.HOME }}/tools/.downloads/{{ item.archive_name }}"
+    src: "{{ third_party_downloads_dir }}/{{ item.archive_name }}"
     dest: "{{ item.extract_to }}"
     remote_src: true
+    creates: "{{ item.extract_to }}/.installed-{{ item.name }}-{{ item.version }}"
+  loop: "{{ third_party_tools }}"
+
+- name: Create install marker files
+  file:
+    path: "{{ item.extract_to }}/.installed-{{ item.name }}-{{ item.version }}"
+    state: touch
+    mode: "0644"
   loop: "{{ third_party_tools }}"
