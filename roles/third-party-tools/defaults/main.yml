@@ -34,6 +34,12 @@ third_party_tools_linux:
     archive_name: "zmc9.1.1.1.41-ca-linux_x64.tar.gz"
     extract_to: "{{ third_party_tools_dir }}"
 
+  - name: gcloganalyzer
+    version: "26.02.0"
+    archive_url: "https://cdn.azul.com/gcla/26.02.0/GCLogAnalyzer-26.02.0-ca.zip"
+    archive_name: "GCLogAnalyzer-26.02.0-ca.zip"
+    extract_to: "{{ third_party_tools_dir }}"
+
   - name: visualvm
     version: "2.2.1"
     archive_url: "https://github.com/oracle/visualvm/releases/download/2.2.1/visualvm_221.zip"
@@ -57,6 +63,12 @@ third_party_tools_macos:
     version: "2.2.1"
     archive_url: "https://github.com/oracle/visualvm/releases/download/2.2.1/visualvm_221.zip"
     archive_name: "visualvm_221.zip"
+    extract_to: "{{ third_party_tools_dir }}"
+
+  - name: gcloganalyzer
+    version: "26.02.0"
+    archive_url: "https://cdn.azul.com/gcla/26.02.0/GCLogAnalyzer-26.02.0-ca.zip"
+    archive_name: "GCLogAnalyzer-26.02.0-ca.zip"
     extract_to: "{{ third_party_tools_dir }}"
 
 third_party_tools: "{{ third_party_tools_linux if ansible_system == 'Linux' else third_party_tools_macos if ansible_system == 'Darwin' else [] }}"
