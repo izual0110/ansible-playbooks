@@ -1,0 +1,47 @@
+# -e "githubuser=githubuser" -e "githubpassword=githubpassword" -e "PUBLIC_IP=127.0.0.1"
+
+---
+
+- name: Install python3-pip
+  package: name=python3-pip state=present
+
+- name: Install Docker Module for Python
+  pip:
+    name: docker
+
+- name: Checkout dockervpn
+  git:
+    repo: 'https://{{ githubuser | urlencode }}:{{ githubpassword | urlencode }}@github.com/Izual13/blog.git'
+    dest: "~/blog/"
+
+- name: Build an image
+  docker_image:
+    name: blog
+    build:
+      path: "~/blog/"
+      dockerfile: nginxDockerfile
+      pull: yes
+      buildargs:
+        PUBLIC_IP: '{{ PUBLIC_IP }}'
+    source: build
+
+- name: Deploy blog
+  docker_container:
+    name: blog
+    image: blog
+    state: started
+    restart_policy: always
+    privileged: true
+    ports:
+      - "80:80"
+
+
+
+
+
+
+
+
+
+
+

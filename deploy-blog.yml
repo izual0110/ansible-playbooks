@@ -1,0 +1,6 @@
+---
+- hosts: servers
+  roles:
+    - deploy-blog
+  vars_files:
+    - /vars/deploy_blog_external_vars.yml
